@@ -9,7 +9,7 @@
  * @package    ImageHelper
  * @version    1.0.0
  * @author     Nurettin ÖZEN
- * @license    MIT License
+ * @license    GNU GENERAL PUBLIC LICENSE
  * @link       https://github.com/nurettinozen/ImageOptimizerHelperClass
  */
 class ImageHelper
