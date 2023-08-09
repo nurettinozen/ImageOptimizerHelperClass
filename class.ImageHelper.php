@@ -1,5 +1,17 @@
 <?php
-
+/**
+ * Image Helper Class
+ *
+ * This class provides methods for processing and compressing images.
+ * It uses the GD library and cURL for image manipulation and downloading.
+ *
+ * @category   Helpers
+ * @package    ImageHelper
+ * @version    1.0.0
+ * @author     Nurettin ÖZEN
+ * @license    MIT License
+ * @link       https://github.com/nurettinozen/ImageOptimizerHelperClass
+ */
 class ImageHelper
 {
     public static function processImage($imageUrl, $newWidth, $newHeight, $quality = 80)
