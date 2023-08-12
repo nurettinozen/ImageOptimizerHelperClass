@@ -16,6 +16,15 @@ class ImageHelper
 {
     public static function processImage($imageUrl, $newWidth, $newHeight, $quality = 80)
     {
+        $cacheDir = 'cache'; // Cache klasörü adı
+        $cacheFileName = md5($imageUrl . $newWidth . $newHeight . $quality) . '.jpg';
+        $cacheFilePath = $cacheDir . '/' . $cacheFileName;
+
+        if (file_exists($cacheFilePath)) {
+            // Cache'de sıkıştırılmış görüntü varsa direkt olarak döndür
+            return 'data:image/jpeg;base64,' . base64_encode(file_get_contents($cacheFilePath));
+        }
+
         $imageData = self::downloadImage($imageUrl);
 
         if ($imageData) {
@@ -25,7 +34,6 @@ class ImageHelper
                 $originalWidth = imagesx($image);
                 $originalHeight = imagesy($image);
 
-                // Yeni boyutları hesapla ve aspect ratio'yu koru
                 $aspectRatio = $originalWidth / $originalHeight;
                 if ($newWidth / $newHeight > $aspectRatio) {
                     $newWidth = $newHeight * $aspectRatio;
@@ -40,6 +48,12 @@ class ImageHelper
                 imagejpeg($newImage, null, $quality);
                 $compressedImage = ob_get_contents();
                 ob_end_clean();
+
+                // Sıkıştırılmış görüntüyü cache'e kaydet
+                if (!is_dir($cacheDir)) {
+                    mkdir($cacheDir);
+                }
+                file_put_contents($cacheFilePath, $compressedImage);
 
                 imagedestroy($newImage);
                 imagedestroy($image);
